@@ -646,7 +646,7 @@ sumLast2:: Int -> Int
 sumLast2 n = scnd + frst
   where
     last2 = mod (abs n) 100
-    (scnd,frst) = divMod last2 10 
+    (scnd,frst) = divMod last2 10
 
 
 {- |
@@ -671,7 +671,7 @@ firstDigit n = go (divMod (abs n) 10)
   where
     go :: (Int, Int) -> Int
     go (0, lastRemainder) = lastRemainder
-    go (init', _) = go (divMod init' 10)
+    go (init', _)         = go (divMod init' 10)
 
 
 {-
