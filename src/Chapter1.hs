@@ -520,7 +520,7 @@ branches because it is an expression and it must always return some value.
   satisfying the check will be returned and, therefore, evaluated.
 -}
 closestToZero :: Int -> Int -> Int
-closestToZero x y = if min (abs x) (abs y) == (abs x) then x else y
+closestToZero x y = if min (abs x) (abs y) == abs x then x else y
 
 {- |
 =⚔️= Task 7
