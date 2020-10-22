@@ -573,14 +573,7 @@ True
 False
 -}
 isVowel :: Char -> Bool
-isVowel c
-    | c == 'a'  = True
-    | c == 'e'  = True
-    | c == 'i'  = True
-    | c == 'o'  = True
-    | c == 'u'  = True
-    | otherwise = False
-
+isVowel c = elem c "aeiou"
 
 {- |
 == Local variables and functions
