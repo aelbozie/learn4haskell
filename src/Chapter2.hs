@@ -348,9 +348,9 @@ from it!
 ghci> :l src/Chapter2.hs
 -}
 subList :: Int -> Int -> [a] -> [a]
-subList x y l = drop x m
-  where
-    m = take (y + 1) l
+subList from to l
+    | from < 0 || to < 0 || to < from = []
+    | otherwise = take (to - from + 1) (drop from l)
 {- |
 =⚔️= Task 4
 
@@ -516,7 +516,9 @@ True
 >>> isThird42 [42, 42, 0, 42]
 False
 -}
-isThird42 = error "isThird42: Not implemented!"
+isThird42 :: [Int] -> Bool
+isThird42 (_:_:42:_) = True
+isThird42 _          = False
 
 
 {- |
@@ -621,7 +623,8 @@ Implement a function that duplicates each element of the list
 
 -}
 duplicate :: [a] -> [a]
-duplicate l = concat [replicate 2 x | x <- l ]
+duplicate []     = []
+duplicate (x:xs) = replicate 2 x ++ duplicate xs
 
 
 {- |
@@ -634,10 +637,13 @@ Write a function that takes elements of a list only on even positions.
   least 2. Alternatively, you can use the "Recursive go" pattern.
 
 >>> takeEven [2, 1, 3, 5, 4]
-[2,4]
+[2,3,4]
 -}
 takeEven :: [Int] -> [Int]
-takeEven l = [ x | x <- l, x `mod` 2 == 0  ]
+takeEven []           = []
+takeEven [x]          = [x]
+takeEven (x : _ : xs) = x : takeEven xs
+
 
 {- |
 =🛡= Higher-order functions
@@ -806,7 +812,7 @@ listElementsLessThan x  = filter (< x)
 
 -- Can you eta-reduce this one???
 pairMul ::[Int] -> [Int] -> [Int]
-pairMul xs = zipWith (*) xs
+pairMul  = zipWith (*)
 
 {- |
 =🛡= Lazy evaluation
@@ -861,8 +867,12 @@ list.
 
 🕯 HINT: Use the 'cycle' function
 -}
-rotate = error "rotate: Not implemented!"
-
+rotate :: Int -> [a] -> [a]
+rotate n l
+    | n < 0 = []
+    | null l = []
+    | otherwise = take len (drop (mod n len) (cycle l))
+        where len = length l
 {- |
 =💣= Task 12*
 
@@ -877,7 +887,12 @@ and reverses it.
   function, but in this task, you need to implement it manually. No
   cheating!
 -}
-rewind = error "rewind: Not Implemented!"
+rewind :: [a] -> [a]
+rewind = go []
+  where
+    go :: [a] -> [a] -> [a]
+    go res []     = res
+    go res (x:xs) = go (x : res) xs
 
 
 {-
